@@ -8,15 +8,15 @@ const DataRow = ({ category, speed, plate }) => {
       <div className="w-1/4 sm:w-2/6">{speed}Km/h</div>
       <div className="w-1/4 sm:w-2/6">{plate}</div>
       <div
-        className="w-7 h-7 border-red-800 cursor-pointer border flex justify-center hover:bg-red-800 duration-500 ease-in-out group items-center rounded-full dark:bg-red-800 dark:hover:bg-white"
+        className="w-7 h-7 cursor-pointer border flex justify-center hover:bg-red-800 duration-500 ease-in-out group items-center rounded-full dark:bg-slate-800 dark:hover:bg-red-800"
         onClick={() => {
           setShowDiv(!showDiv);
         }}
       >
-        <i className="fa-solid fa-info text-red-800 dark:text-white dark:group-hover:text-red-800 group-hover:text-white duration-500 ease-in-out" />
+        <i className="fa-solid fa-info text-red-800 dark:text-white group-hover:text-white duration-500 ease-in-out " />
       </div>
       <div
-        className={`w-10/12 h-2/3 sm:w-2/5 bg-white flex flex-col gap-5 rounded-md border-red-800 border top-[20%] sm:left-[30%] left-[6%] fixed duration-500 ease-in-out shadow-lg dark:bg-slate-700 ${
+        className={`w-10/12 h-2/3 sm:w-2/5 bg-white flex flex-col gap-5 rounded-md top-[20%] sm:left-[30%] left-[6%] fixed duration-500 ease-in-out dark:bg-slate-900 shadow-md ${
           showDiv ? "scale-100" : "scale-0"
         }`}
       >
@@ -25,8 +25,8 @@ const DataRow = ({ category, speed, plate }) => {
             setShowDiv(!showDiv);
           }}
         >
-          <div className="w-6 h-6 rounded-sm duration-500 flex flex-col gap-3 justify-center items-center  cursor-pointer hover:bg-red-800 dark:bg-red-800 dark:hover:bg-white group">
-            <i className="fa-solid fa-x text-red-800 duration-500 ease-in-out group-hover:text-white dark:text-white dark:group-hover:text-red-800" />
+          <div className="w-6 h-6 rounded-md duration-500 flex flex-col gap-3 justify-center items-center  cursor-pointer hover:bg-red-800 dark:hover:bg-red-800 dark:bg-slate-900 group dark:border-white border border-red-800">
+            <i className="fa-solid fa-x text-red-800 duration-500 ease-in-out group-hover:text-white dark:text-white" />
           </div>
         </div>
         <div className="w-full flex flex-col gap-3 justify-center items-center text-red-800">

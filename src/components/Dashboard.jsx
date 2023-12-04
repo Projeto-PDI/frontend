@@ -158,7 +158,7 @@ const Dashboard = () => {
           />
           <label
             htmlFor="file"
-            className="px-4 py-2 lg:w-2/12 sm:w-3/12 text-center rounded-lg shadow-lg border border-red-800 text-red-800 tetx-lg font-semibold duration-500 ease-in-out hover:bg-red-800 hover:text-white cursor-pointer dark:text-white dark:bg-red-800 dark:hover:text-red-800 dark:hover:bg-white"
+            className="px-4 py-2 lg:w-3/12 sm:w-3/12 text-center rounded-lg shadow-lg border border-red-800 text-red-800 tetx-lg font-semibold duration-500 ease-in-out hover:bg-red-800 hover:text-white cursor-pointer dark:text-white dark:border-white dark:bg-slate-800 dark:hover:bg-red-800"
           >
             Anexar Arquivo
           </label>
