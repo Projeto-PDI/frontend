@@ -72,7 +72,7 @@ const Dashboard = () => {
     <div
       className={`h-auto flex-1 flex flex-col gap-5 pl-20 pr-8 py-5 scene dark:bg-slate-900 duration-500 ease-in-out`}
     >
-      <div className="rounded-md bg-white dark:bg-slate-800 duration-500 ease-in-out shadow-lg py-3 justify-between h-auto sm:py-3 sm:h-1/6 flex items-center px-6 border-slate-100 border flex-wrap">
+      <div className="rounded-md bg-white dark:bg-slate-800 duration-500 ease-in-out shadow-lg py-3 justify-between h-auto sm:py-3 sm:h-1/6 flex items-center px-6 dark:border-red-800 border flex-wrap">
         <div className="w-full h-auto flex flex-col sm:w-2/3 lg:w-8/12">
           <div className="text-md text-slate-400 font-medium">Principal</div>
           <div className="text-xl text-red-800 font-semibold dark:text-white duration-500 ease-in-out">
@@ -90,7 +90,7 @@ const Dashboard = () => {
           />
         </div>
       </div>
-      <div className="rounded-md bg-white shadow-lg h-auto lg:h-2/6 p-6 border-slate-100 border dark:bg-slate-800 duration-500 ease-in-out">
+      <div className="rounded-md bg-white shadow-lg h-auto lg:h-2/6 p-6 dark:border-red-800 border dark:bg-slate-800 duration-500 ease-in-out">
         <div className="w-full text-red-800 text-lg font-medium h-auto dark:text-white duration-500 ease-in-out">
           Dados
         </div>
@@ -141,7 +141,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="rounded-md bg-white shadow-lg py-3 justify-between h-auto sm:py-3 sm:h-auto flex items-center px-6 border-slate-100 border flex-wrap dark:bg-slate-800 duration-500 ease-in-out">
+      <div className="rounded-md bg-white shadow-lg py-3 justify-between h-auto sm:py-3 sm:h-auto flex items-center px-6 dark:border-red-800 border flex-wrap dark:bg-slate-800 duration-500 ease-in-out">
         <div className="w-full h-auto flex flex-col sm:w-2/3 lg:w-8/12">
           <div className="text-md text-slate-400 font-medium">lorem</div>
           <div className="text-xl text-red-800 font-semibold dark:text-white duration-500 ease-in-out">
@@ -158,13 +158,13 @@ const Dashboard = () => {
           />
           <label
             htmlFor="file"
-            className="px-4 py-2 lg:w-3/12 sm:w-3/12 text-center rounded-lg shadow-lg border border-red-800 text-red-800 tetx-lg font-semibold duration-500 ease-in-out hover:bg-red-800 hover:text-white cursor-pointer dark:text-white dark:border-white dark:bg-slate-800 dark:hover:bg-red-800"
+            className="px-4 py-2 lg:w-3/12 sm:w-3/12 text-center rounded-lg shadow-lg border border-red-800 text-red-800 tetx-lg font-semibold duration-500 ease-in-out hover:bg-red-800 hover:text-white cursor-pointer dark:text-white dark:border-white dark:bg-slate-800 dark:hover:bg-slate-900"
           >
             Anexar Arquivo
           </label>
         </div>
       </div>
-      <div className="rounded-md bg-white text-red-800 dark:text-white font-medium shadow-lg h-auto px-6 py-4 flex flex-col gap-2 border-slate-100 border dark:bg-slate-800 duration-500 ease-in-out">
+      <div className="rounded-md bg-white text-red-800 dark:text-white font-medium shadow-lg h-auto px-6 py-4 flex flex-col gap-2 dark:border-red-800 border dark:bg-slate-800 duration-500 ease-in-out">
         <div className="w-full text-lg h-auto font-semibold">Lorem Ipsum</div>
         <div className="w-full h-auto border border-red-800 rounded-md shadow-md">
           <div className="w-full h-auto text-md flex gap-5 bg-red-800 text-white py-2 px-3">
