@@ -20,7 +20,7 @@ const Home = () => {
 
   return (
     <div className={`w-full h-auto flex  ${mode ? "dark" : ""}`}>
-      <div className="w-full h-full dark:bg-slate-900 duration-500 ease-in-out">
+      <div className="w-full min-h-screen dark:bg-slate-900 duration-500 ease-in-out">
         <ToastContainer position="bottom-left" autoClose={5000} />
         <Sidebar mode={mode} setMode={setMode} />
         <Dashboard />

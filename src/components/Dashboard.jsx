@@ -61,6 +61,8 @@ const data = [
 ];
 
 const Dashboard = () => {
+  // State
+  const [state, setState] = useState(0);
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itensPerPage = 7;
@@ -70,7 +72,7 @@ const Dashboard = () => {
   const pages = Math.ceil(data.length / itensPerPage);
   return (
     <div
-      className={`h-auto flex-1 flex flex-col gap-5 pl-20 pr-8 py-5 scene dark:bg-slate-900 duration-500 ease-in-out`}
+      className={`flex-1 flex flex-col gap-5 pl-20 pr-8 py-5 scene dark:bg-slate-900 duration-500 ease-in-out`}
     >
       <div className="rounded-md bg-white dark:bg-slate-800 duration-500 ease-in-out shadow-lg py-3 justify-between h-auto sm:py-3 sm:h-1/6 flex items-center px-6 dark:border-red-800 border flex-wrap">
         <div className="w-full h-auto flex flex-col sm:w-2/3 lg:w-8/12">
@@ -86,8 +88,37 @@ const Dashboard = () => {
           <img
             src="images/ufc.png"
             className="w-11 h-11 rounded-full border border-red-800 shadow-lg dark:border-white duration-500 ease-in-out"
-            alt="Imagem do Admin"
+            alt="Imagem da Universidade Federal do Ceará"
           />
+        </div>
+      </div>
+
+      <div className="rounded-md bg-white shadow-lg py-3 justify-between h-auto sm:py-3 sm:h-auto flex items-center px-6 dark:border-red-800 border flex-wrap dark:bg-slate-800 duration-500 ease-in-out">
+        <div className="w-full h-auto flex flex-col gap-1 sm:w-2/3 lg:w-8/12">
+          <div className="text-md text-slate-400 font-medium">
+            Processamento
+          </div>
+          <div className="text-xl text-red-800 font-semibold dark:text-white duration-500 ease-in-out">
+            Selecione o arquivo a ser analisado
+          </div>
+          <form action="" className="w-full h-auto flex flex-col gap-2">
+            <input
+              type="file"
+              name="file"
+              id="file"
+              className="hidden"
+              required
+              onChange={() => {
+                toast.success("Arquivo anexado com sucesso!");
+              }}
+            />
+            <label
+              htmlFor="file"
+              className="px-4 py-2 lg:w-3/12 sm:w-3/12 text-center rounded-lg shadow-lg border border-red-800 text-red-800 tetx-lg font-semibold duration-500 ease-in-out hover:bg-red-800 hover:text-white cursor-pointer dark:text-white dark:border-white dark:bg-slate-800 dark:hover:bg-slate-900"
+            >
+              Anexar Arquivo
+            </label>
+          </form>
         </div>
       </div>
       <div className="rounded-md bg-white shadow-lg h-auto lg:h-2/6 p-6 dark:border-red-800 border dark:bg-slate-800 duration-500 ease-in-out">
@@ -97,119 +128,122 @@ const Dashboard = () => {
         <div className="w-full flex gap-4 flex-1 flex-wrap">
           <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-full text-white border border-red-800 p-5 shadow-md dark:border-white duration-500 ease-in-out">
             <div className="w-3/4 h-auto flex flex-col gap-1 font-semibold">
-              <div className="text-xs text-slate-500">Lorem Ipsum</div>
+              <div className="text-md font-semibold text-slate-500 dark:text-slate-300 duration-500 ease-in-out">
+                Quantidade de Transportes
+              </div>
               <div className="text-2xl text-red-800 dark:text-white duration-500 ease-in-out">
                 20
               </div>
             </div>
             <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
-              <i className="fa-solid fa-user text-white"></i>
+              <i className="fa-solid fa-car-side text-white"></i>
             </div>
           </div>
           <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-full text-white border border-red-800 dark:text-white duration-500 ease-in-out p-5 shadow-md dark:border-white">
             <div className="w-3/4 h-auto flex flex-col gap-1 font-semibold">
-              <div className="text-xs text-slate-500">Lorem Ipsum</div>
+              <div className="text-md font-semibold text-slate-500 dark:text-slate-300 duration-500 ease-in-out">
+                Velocidade Média Total
+              </div>
               <div className="text-2xl text-red-800 dark:text-white duration-500 ease-in-out">
-                12
+                43km/h
               </div>
             </div>
             <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
-              <i className="fa-solid fa-file-invoice text-white"></i>
+              <i className="fa-solid fa-gauge-high text-white"></i>
             </div>
           </div>
           <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-full text-white border border-red-800 dark:text-white duration-500 ease-in-out p-5 shadow-md dark:border-white">
             <div className="w-3/4 h-auto flex flex-col gap-1 font-semibold">
-              <div className="text-xs text-slate-500">Lorem Ipsum</div>
+              <div className="text-md font-semibold text-slate-500 dark:text-slate-300 duration-500 ease-in-out">
+                Infrações
+              </div>
               <div className="text-2xl text-red-800 dark:text-white duration-500 ease-in-out">
                 34
               </div>
             </div>
             <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
-              <i className="fa-solid fa-database text-white"></i>
+              <i className="fa-solid fa-file text-white"></i>
             </div>
           </div>
-          <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-full text-white border border-red-800 dark:text-white duration-500 ease-in-out p-5 shadow-md dark:border-white">
-            <div className="w-3/4 h-auto flex flex-col gap-1 font-semibold">
-              <div className="text-xs text-slate-500">Lorem Ipsum</div>
-              <div className="text-2xl text-red-800 dark:text-white duration-500 ease-in-out">
-                7
-              </div>
-            </div>
-            <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
-              <i className="fa-solid fa-message text-white"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="rounded-md bg-white shadow-lg py-3 justify-between h-auto sm:py-3 sm:h-auto flex items-center px-6 dark:border-red-800 border flex-wrap dark:bg-slate-800 duration-500 ease-in-out">
-        <div className="w-full h-auto flex flex-col sm:w-2/3 lg:w-8/12">
-          <div className="text-md text-slate-400 font-medium">lorem</div>
-          <div className="text-xl text-red-800 font-semibold dark:text-white duration-500 ease-in-out">
-            Lorem Ipsum
-          </div>
-          <input
-            type="file"
-            name="file"
-            id="file"
-            className="hidden"
-            onChange={() => {
-              toast.success("Arquivo upado com sucesso!");
-            }}
-          />
-          <label
-            htmlFor="file"
-            className="px-4 py-2 lg:w-3/12 sm:w-3/12 text-center rounded-lg shadow-lg border border-red-800 text-red-800 tetx-lg font-semibold duration-500 ease-in-out hover:bg-red-800 hover:text-white cursor-pointer dark:text-white dark:border-white dark:bg-slate-800 dark:hover:bg-slate-900"
-          >
-            Anexar Arquivo
-          </label>
         </div>
       </div>
       <div className="rounded-md bg-white text-red-800 dark:text-white font-medium shadow-lg h-auto px-6 py-4 flex flex-col gap-2 dark:border-red-800 border dark:bg-slate-800 duration-500 ease-in-out">
-        <div className="w-full text-lg h-auto font-semibold">Lorem Ipsum</div>
-        <div className="w-full h-auto border border-red-800 rounded-md shadow-md">
-          <div className="w-full h-auto text-md flex gap-5 bg-red-800 text-white py-2 px-3">
-            <div className="w-1/4 sm:w-2/6 flex items-center">Categoria</div>
-            <div className="w-1/4 sm:w-2/6 flex items-center">
-              Velocidade Média
-            </div>
-            <div className="w-1/4 sm:w-2/6 flex items-center">Placa</div>
-            <div className="w-7 invisible">info</div>
+        <div className="w-full h-auto flex gap-2 justify-start">
+          <div
+            className={`text-lg font-semibold p-2 rounded-xl border cursor-pointer border-red-800 dark:border-white duration-500 ease-out ${
+              state === 0 ? "bg-red-800 text-white dark:bg-slate-900" : ""
+            }`}
+            onClick={() => setState(0)}
+          >
+            Trajetórias
           </div>
-          {sliceData.map((item, index) => {
-            return (
-              <DataRow
-                key={index}
-                category={item.category}
-                plate={item.plate}
-                speed={item.speed}
-              />
-            );
-          })}
+          <div
+            className={`text-lg font-semibold p-2 rounded-xl border cursor-pointer border-red-800 dark:border-white duration-500 ease-out ${
+              state === 1 ? "bg-red-800 text-white dark:bg-slate-900" : ""
+            }`}
+            onClick={() => setState(1)}
+          >
+            Transportes
+          </div>
         </div>
-        <div className="w-full px-1 flex my-5 items-center">
-          <i
-            className={`fa-solid fa-chevron-left text-red-800 duration-500 ease-in-out dark:text-white  ${
-              currentPage !== 1
-                ? "cursor-pointer hover:text-red-950 dark:hover:text-slate-300"
-                : ""
-            }`}
-            onClick={() => {
-              currentPage !== 1 && setCurrentPage(currentPage - 1);
-            }}
-          ></i>
-          <span className="text-red-800 text-lg font-medium mx-2 dark:text-white">
-            {currentPage}
-          </span>
-          <i
-            className={`fa-solid fa-chevron-right text-red-800 duration-500 ease-in-out dark:text-white ${
-              currentPage !== pages
-                ? "cursor-pointer hover:text-red-950 dark:hover:text-slate-300"
-                : ""
-            }`}
-            onClick={() => {
-              currentPage !== pages && setCurrentPage(currentPage + 1);
-            }}
-          ></i>
+        <div
+          className={`w-full h-auto dark:text-white text-red-800 flex-col gap-2 ${
+            state === 0 ? "flex" : "hidden"
+          }`}
+        >
+          teste
+        </div>
+        <div
+          className={`w-full h-auto flex-col gap-2 ${
+            state === 1 ? "flex" : "hidden"
+          }`}
+        >
+          <div className="w-full h-auto border border-red-800 rounded-md shadow-md">
+            <div className="w-full h-auto text-md flex gap-5 bg-red-800 text-white py-2 px-3">
+              <div className="w-1/4 sm:w-2/6 flex items-center">Categoria</div>
+              <div className="w-1/4 sm:w-2/6 flex items-center">
+                Velocidade Média
+              </div>
+              <div className="w-1/4 sm:w-2/6 flex items-center invisible">
+                Placa
+              </div>
+              <div className="w-7 invisible">info</div>
+            </div>
+            {sliceData.map((item, index) => {
+              return (
+                <DataRow
+                  key={index}
+                  category={item.category}
+                  speed={item.speed}
+                />
+              );
+            })}
+          </div>
+          <div className="w-full px-1 flex my-5 items-center">
+            <i
+              className={`fa-solid fa-chevron-left text-red-800 duration-500 ease-in-out dark:text-white  ${
+                currentPage !== 1
+                  ? "cursor-pointer hover:text-red-950 dark:hover:text-slate-300"
+                  : ""
+              }`}
+              onClick={() => {
+                currentPage !== 1 && setCurrentPage(currentPage - 1);
+              }}
+            ></i>
+            <span className="text-red-800 text-lg font-medium mx-2 dark:text-white">
+              {currentPage}
+            </span>
+            <i
+              className={`fa-solid fa-chevron-right text-red-800 duration-500 ease-in-out dark:text-white ${
+                currentPage !== pages
+                  ? "cursor-pointer hover:text-red-950 dark:hover:text-slate-300"
+                  : ""
+              }`}
+              onClick={() => {
+                currentPage !== pages && setCurrentPage(currentPage + 1);
+              }}
+            ></i>
+          </div>
         </div>
       </div>
     </div>

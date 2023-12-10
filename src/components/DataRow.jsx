@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-const DataRow = ({ category, speed, plate }) => {
+const DataRow = ({ category, speed }) => {
   const [showDiv, setShowDiv] = useState(false);
   return (
     <div className="w-full h-auto text-md flex gap-5 py-2 px-3 border-t border-red-800">
       <div className="w-1/4 sm:w-2/6">{category}</div>
       <div className="w-1/4 sm:w-2/6">{speed}Km/h</div>
-      <div className="w-1/4 sm:w-2/6">{plate}</div>
+      <div className="w-1/4 sm:w-2/6 invisible">nothing</div>
       <div
         className="w-7 h-7 cursor-pointer border flex justify-center hover:bg-red-800 duration-500 ease-in-out group items-center rounded-full dark:bg-slate-800 dark:hover:bg-slate-900"
         onClick={() => {
