@@ -1,6 +1,6 @@
 import React from "react";
 import DataRow from "./DataRow";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 // import { alpha, styled } from "@mui/material/styles";
 // import { red } from "@mui/material/colors";
@@ -70,6 +70,33 @@ const Dashboard = () => {
   const firstIndex = lastIndex - itensPerPage;
   const sliceData = data.slice(firstIndex, lastIndex);
   const pages = Math.ceil(data.length / itensPerPage);
+
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+    handleUpload();
+  };
+
+  const handleUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await axios.post("/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success("Upload feito com sucesso");
+      console.log(response.data);
+    } catch (error) {
+      toast.error("Error ao realizar o upload");
+      console.error(response.data);
+    }
+  };
+
   return (
     <div
       className={`flex-1 flex flex-col gap-5 pl-20 pr-8 py-5 scene dark:bg-slate-900 duration-500 ease-in-out`}
@@ -108,9 +135,7 @@ const Dashboard = () => {
               id="file"
               className="hidden"
               required
-              onChange={() => {
-                toast.success("Arquivo anexado com sucesso!");
-              }}
+              onChange={handleFileChange}
             />
             <label
               htmlFor="file"
@@ -191,7 +216,7 @@ const Dashboard = () => {
             state === 0 ? "flex" : "hidden"
           }`}
         >
-          teste
+          Trajetórias
         </div>
         <div
           className={`w-full h-auto flex-col gap-2 ${
