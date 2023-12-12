@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import TrajectoryPlot from "./TrajectoryPlot";
 
 const DataRow = ({ item }) => {
   const [showDiv, setShowDiv] = useState(false);
@@ -29,8 +30,8 @@ const DataRow = ({ item }) => {
   };
   return (
     <div className="w-full h-auto text-md flex gap-5 py-2 px-3 border-t border-red-800">
-      <div className="w-1/4">{transportType(item.tipo)}</div>
-      <div className="w-1/4">{item.velocidade.toFixed(2)} Km/h</div>
+      <div className="w-1/4">{transportType(item.type)}</div>
+      <div className="w-1/4">{item.velocity.toFixed(2)} Km/h</div>
       <div className="w-1/4">{dataFormat(item.start_time)}</div>
       <div className="w-1/4">{dataFormat(item.end_time)}</div>
       <div
@@ -42,7 +43,7 @@ const DataRow = ({ item }) => {
         <i className="fa-solid fa-info text-red-800 dark:text-white group-hover:text-white duration-500 ease-in-out " />
       </div>
       <div
-        className={`w-10/12 h-2/3 sm:w-2/5 p-4 bg-white flex flex-col gap-2 rounded-md top-[20%] sm:left-[30%] left-[6%] fixed duration-500 ease-in-out dark:bg-slate-900 shadow-md ${
+        className={`w-10/12 h-5/6 sm:w-2/5 p-4 bg-white flex flex-col gap-2 rounded-md top-[13%] sm:left-[30%] left-[6%] fixed duration-500 ease-in-out dark:bg-slate-900 shadow-md ${
           showDiv ? "scale-100" : "scale-0"
         }`}
       >
@@ -55,40 +56,7 @@ const DataRow = ({ item }) => {
             <i className="fa-solid fa-x text-red-800 duration-500 ease-in-out group-hover:text-white dark:text-white" />
           </div>
         </div>
-        <div className="w-full flex flex-col gap-3 justify-center items-center text-red-800">
-          <div className="w-full flex flex-col gap-1">
-            <div className="text-lg text-red-800 dark:text-white duration-500 ease-in-out font-medium">
-              Lorem
-            </div>
-            <div className="text-lg text-red-800 dark:text-white duration-500 ease-in-out px-4 py-2 font-semibold border border-red-800 rounded-md dark:border-slate-300">
-              Dados
-            </div>
-          </div>
-          <div className="w-full flex flex-col gap-1">
-            <div className="text-lg text-red-800 dark:text-white duration-500 ease-in-out font-medium">
-              Lorem
-            </div>
-            <div className="text-lg text-red-800 dark:text-white duration-500 ease-in-out px-4 py-2 font-semibold border border-red-800 rounded-md dark:border-slate-300">
-              Dados
-            </div>
-          </div>
-          <div className="w-full flex flex-col gap-1">
-            <div className="text-lg text-red-800 dark:text-white duration-500 ease-in-out font-medium">
-              Lorem
-            </div>
-            <div className="text-lg text-red-800 dark:text-white duration-500 ease-in-out px-4 py-2 font-semibold border border-red-800 rounded-md dark:border-slate-300">
-              Dados
-            </div>
-          </div>
-          <div className="w-full flex flex-col gap-1">
-            <div className="text-lg text-red-800 dark:text-white duration-500 ease-in-out font-medium">
-              Lorem
-            </div>
-            <div className="text-lg text-red-800 dark:text-white duration-500 ease-in-out px-4 py-2 font-semibold border border-red-800 rounded-md dark:border-slate-300">
-              Dados
-            </div>
-          </div>
-        </div>
+        <TrajectoryPlot trajectoryData={item.trajectories} />
       </div>
     </div>
   );

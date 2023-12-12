@@ -1,25 +1,35 @@
 import React from "react";
 import DataRow from "./DataRow";
-import { useState, useEffect, useRef } from "react";
+import DataRowRegister from "./DataRowRegister";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-// import { alpha, styled } from "@mui/material/styles";
-// import { red } from "@mui/material/colors";
-// import Switch from "@mui/material/Switch";
 import axios from "axios";
 
 const Dashboard = () => {
+  const [currentRegister, setCurrentRegister] = useState("");
   const [name, setName] = useState("");
   const [file, setFile] = useState(null);
   const [data, setData] = useState([]);
   // State
   const [state, setState] = useState(0);
-  // Pagination
+  // Pagination - Transports
   const [currentPage, setCurrentPage] = useState(1);
   const itensPerPage = 7;
   const lastIndex = currentPage * itensPerPage;
   const firstIndex = lastIndex - itensPerPage;
   const sliceData = data.slice(firstIndex, lastIndex);
   const pages = Math.ceil(data.length / itensPerPage);
+
+  // Pagination - Register
+  const [dataRegister, setDataRegister] = useState([]);
+  const [currentPageRegister, setCurrentPageRegister] = useState(1);
+  const lastIndexRegister = currentPageRegister * itensPerPage;
+  const firstIndexRegister = lastIndexRegister - itensPerPage;
+  const sliceDataRegister = dataRegister.slice(
+    firstIndexRegister,
+    lastIndexRegister
+  );
+  const pagesRegister = Math.ceil(dataRegister.length / itensPerPage);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -33,7 +43,7 @@ const Dashboard = () => {
     if (data.length === 0) {
       return 0;
     }
-    const totalSpeed = data.reduce((acc, obj) => acc + obj.velocidade, 0);
+    const totalSpeed = data.reduce((acc, obj) => acc + obj.velocity, 0);
     const average = totalSpeed / data.length;
 
     return average.toFixed(2);
@@ -43,9 +53,8 @@ const Dashboard = () => {
       const formData = new FormData();
       formData.append("name", name);
       formData.append("file", file);
-      console.log(formData);
       const response = await axios.post(
-        "http://localhost:8800/register",
+        "http://localhost:5000/register",
         formData,
         {
           headers: {
@@ -54,12 +63,47 @@ const Dashboard = () => {
         }
       );
       setData(response.data);
+      setCurrentRegister(name);
+      setName("");
+      getRegister().console.log(response.data);
+    } catch (error) {
+      console.error(`Erro na requisição: ${error.message}`);
+    }
+  };
+  const getRegister = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/register/", {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setDataRegister(response.data);
       console.log(response.data);
       // Faça algo com a resposta, se necessário
     } catch (error) {
       console.error(`Erro na requisição: ${error.message}`);
     }
   };
+  const getRegisterId = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/register/${id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setData(response.data.veiculos);
+      setCurrentRegister(response.data.name);
+      setState(1);
+      console.log(response.data);
+      // Faça algo com a resposta, se necessário
+    } catch (error) {
+      console.error(`Erro na requisição: ${error.message}`);
+    }
+  };
+
+  useEffect(() => {
+    getRegister();
+  }, []);
 
   return (
     <div
@@ -90,7 +134,7 @@ const Dashboard = () => {
             Processamento
           </div>
           <div className="text-xl text-red-800 font-semibold dark:text-white duration-500 ease-in-out">
-            Selecione o arquivo a ser analisado
+            Adicione um novo registro
           </div>
           <form
             action=""
@@ -105,7 +149,7 @@ const Dashboard = () => {
               <input
                 type="text"
                 className="w-3/12 h-auto p-2 rounded-lg border border-red-800 text-lg font-semibold text-red-800 dark:text-white dark:bg-slate-800 dark:border-white duration-500 ease-in-out outline-none"
-                placeholder="Titulo do Registro"
+                placeholder="Título do Registro"
                 value={name}
                 required
                 onChange={handleNameChange}
@@ -171,7 +215,7 @@ const Dashboard = () => {
                 Registros
               </div>
               <div className="text-2xl text-red-800 dark:text-white duration-500 ease-in-out">
-                0
+                {dataRegister.length}
               </div>
             </div>
             <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
@@ -181,7 +225,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="rounded-md bg-white text-red-800 dark:text-white font-medium shadow-lg h-auto px-6 py-4 flex flex-col gap-2 dark:border-red-800 border dark:bg-slate-800 duration-500 ease-in-out">
-        <div className="w-full h-auto flex gap-2 justify-start">
+        <div className="w-full h-auto flex gap-3 justify-start">
           <div
             className={`text-lg font-semibold p-2 rounded-xl border cursor-pointer border-red-800 dark:border-white duration-500 ease-out ${
               state === 0 ? "bg-red-800 text-white dark:bg-slate-900" : ""
@@ -198,13 +242,59 @@ const Dashboard = () => {
           >
             Transportes
           </div>
+          <div className="text-lg font-semibold flex justify-center items-center text-red-800 dark:text-white duration-500 ease-in-out">
+            {currentRegister}
+          </div>
         </div>
         <div
           className={`w-full h-auto dark:text-white text-red-800 flex-col gap-2 ${
             state === 0 ? "flex" : "hidden"
           }`}
         >
-          Registros
+          <div className="w-full h-auto border border-red-800 rounded-md shadow-md">
+            <div className="w-full h-auto text-md flex gap-5 bg-red-800 text-white py-2 px-3">
+              <div className="w-1/4 sm:w-2/6 flex items-center">Id</div>
+              <div className="w-1/4 sm:flex-1 flex items-center">Título</div>
+              <div className="flex items-center">Carregar Registro</div>
+            </div>
+            {sliceDataRegister.map((item, index) => {
+              return (
+                <DataRowRegister
+                  key={index}
+                  item={item}
+                  toast={toast}
+                  getRegisterId={getRegisterId}
+                />
+              );
+            })}
+          </div>
+          <div className="w-full px-1 flex my-5 items-center">
+            <i
+              className={`fa-solid fa-chevron-left text-red-800 duration-500 ease-in-out dark:text-white  ${
+                currentPageRegister !== 1
+                  ? "cursor-pointer hover:text-red-950 dark:hover:text-slate-300"
+                  : ""
+              }`}
+              onClick={() => {
+                currentPageRegister !== 1 &&
+                  setCurrentPageRegister(currentPageRegister - 1);
+              }}
+            ></i>
+            <span className="text-red-800 text-lg font-medium mx-2 dark:text-white">
+              {currentPageRegister}
+            </span>
+            <i
+              className={`fa-solid fa-chevron-right text-red-800 duration-500 ease-in-out dark:text-white ${
+                currentPageRegister !== pagesRegister
+                  ? "cursor-pointer hover:text-red-950 dark:hover:text-slate-300"
+                  : ""
+              }`}
+              onClick={() => {
+                currentPageRegister !== pagesRegister &&
+                  setCurrentPageRegister(currentPageRegister + 1);
+              }}
+            ></i>
+          </div>
         </div>
         <div
           className={`w-full h-auto flex-col gap-2 ${
