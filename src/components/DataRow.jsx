@@ -1,12 +1,38 @@
 import React, { useState } from "react";
 
-const DataRow = ({ category, speed }) => {
+const DataRow = ({ item }) => {
   const [showDiv, setShowDiv] = useState(false);
+
+  const dataFormat = (dataString) => {
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    return new Date(dataString).toLocaleDateString("pt-BR", options);
+  };
+
+  const transportType = (type) => {
+    switch (type) {
+      case "car":
+        return "Carro";
+      case "truck":
+        return "Caminhão";
+      case "bus":
+        return "Ônibus";
+      default:
+        return "Pessoa";
+    }
+  };
   return (
     <div className="w-full h-auto text-md flex gap-5 py-2 px-3 border-t border-red-800">
-      <div className="w-1/4 sm:w-2/6">{category}</div>
-      <div className="w-1/4 sm:w-2/6">{speed}Km/h</div>
-      <div className="w-1/4 sm:w-2/6 invisible">nothing</div>
+      <div className="w-1/4">{transportType(item.tipo)}</div>
+      <div className="w-1/4">{item.velocidade.toFixed(2)} Km/h</div>
+      <div className="w-1/4">{dataFormat(item.start_time)}</div>
+      <div className="w-1/4">{dataFormat(item.end_time)}</div>
       <div
         className="w-7 h-7 cursor-pointer border flex justify-center hover:bg-red-800 duration-500 ease-in-out group items-center rounded-full dark:bg-slate-800 dark:hover:bg-slate-900"
         onClick={() => {

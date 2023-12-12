@@ -7,60 +7,10 @@ import { toast } from "react-toastify";
 // import Switch from "@mui/material/Switch";
 import axios from "axios";
 
-const data = [
-  {
-    category: "Carro",
-    speed: 43,
-    plate: "123ABCD",
-  },
-  {
-    category: "Moto",
-    speed: 60,
-    plate: "456EFGH",
-  },
-  {
-    category: "Carro",
-    speed: 55,
-    plate: "789IJKL",
-  },
-  {
-    category: "Moto",
-    speed: 72,
-    plate: "123MNPQ",
-  },
-  {
-    category: "Carro",
-    speed: 40,
-    plate: "456RSTU",
-  },
-  {
-    category: "Moto",
-    speed: 68,
-    plate: "789VWXY",
-  },
-  {
-    category: "Carro",
-    speed: 50,
-    plate: "123ZABC",
-  },
-  {
-    category: "Moto",
-    speed: 75,
-    plate: "456DEFG",
-  },
-  {
-    category: "Carro",
-    speed: 47,
-    plate: "789HIJK",
-  },
-  {
-    category: "Moto",
-    speed: 63,
-    plate: "123LMNO",
-  },
-];
-
 const Dashboard = () => {
+  const [name, setName] = useState("");
+  const [file, setFile] = useState(null);
+  const [data, setData] = useState([]);
   // State
   const [state, setState] = useState(0);
   // Pagination
@@ -71,29 +21,43 @@ const Dashboard = () => {
   const sliceData = data.slice(firstIndex, lastIndex);
   const pages = Math.ceil(data.length / itensPerPage);
 
-  const [file, setFile] = useState(null);
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
-    handleUpload();
   };
 
-  const handleUpload = async () => {
+  const averageSpeed = () => {
+    if (data.length === 0) {
+      return 0;
+    }
+    const totalSpeed = data.reduce((acc, obj) => acc + obj.velocidade, 0);
+    const average = totalSpeed / data.length;
+
+    return average.toFixed(2);
+  };
+  const handleSubmit = async () => {
     try {
       const formData = new FormData();
+      formData.append("name", name);
       formData.append("file", file);
-
-      const response = await axios.post("/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      toast.success("Upload feito com sucesso");
+      console.log(formData);
+      const response = await axios.post(
+        "http://localhost:8800/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setData(response.data);
       console.log(response.data);
+      // Faça algo com a resposta, se necessário
     } catch (error) {
-      toast.error("Error ao realizar o upload");
-      console.error(response.data);
+      console.error(`Erro na requisição: ${error.message}`);
     }
   };
 
@@ -128,21 +92,45 @@ const Dashboard = () => {
           <div className="text-xl text-red-800 font-semibold dark:text-white duration-500 ease-in-out">
             Selecione o arquivo a ser analisado
           </div>
-          <form action="" className="w-full h-auto flex flex-col gap-2">
-            <input
-              type="file"
-              name="file"
-              id="file"
-              className="hidden"
-              required
-              onChange={handleFileChange}
-            />
-            <label
-              htmlFor="file"
-              className="px-4 py-2 lg:w-3/12 sm:w-3/12 text-center rounded-lg shadow-lg border border-red-800 text-red-800 tetx-lg font-semibold duration-500 ease-in-out hover:bg-red-800 hover:text-white cursor-pointer dark:text-white dark:border-white dark:bg-slate-800 dark:hover:bg-slate-900"
+          <form
+            action=""
+            className="w-full h-auto flex flex-col gap-2"
+            onSubmit={(e) => {
+              e.preventDefault();
+              toast.success("Arquivo enviado com sucesso!");
+              handleSubmit();
+            }}
+          >
+            <div className="w-full flex gap-3">
+              <input
+                type="text"
+                className="w-3/12 h-auto p-2 rounded-lg border border-red-800 text-lg font-semibold text-red-800 dark:text-white dark:bg-slate-800 dark:border-white duration-500 ease-in-out outline-none"
+                placeholder="Titulo do Registro"
+                value={name}
+                required
+                onChange={handleNameChange}
+              />
+              <input
+                type="file"
+                name="file"
+                id="file"
+                className="hidden"
+                required
+                onChange={handleFileChange}
+              />
+              <label
+                htmlFor="file"
+                className="px-4 py-2 lg:w-3/12 sm:w-3/12 text-center rounded-lg border border-red-800 text-red-800 tetx-lg font-semibold duration-500 ease-in-out hover:bg-red-800 hover:text-white cursor-pointer dark:text-white dark:border-white dark:bg-slate-800 dark:hover:bg-slate-900"
+              >
+                Anexar Arquivo
+              </label>
+            </div>
+            <button
+              type="submit"
+              className="w-2/12 px-3 py-2 text-lg border border-red-800 text-red-800 font-semibold hover:bg-red-800 hover:text-white duration-500 ease-in-out dark:border-white dark:text-white dark:hover:bg-slate-900 rounded-lg"
             >
-              Anexar Arquivo
-            </label>
+              Enviar
+            </button>
           </form>
         </div>
       </div>
@@ -157,7 +145,7 @@ const Dashboard = () => {
                 Quantidade de Transportes
               </div>
               <div className="text-2xl text-red-800 dark:text-white duration-500 ease-in-out">
-                20
+                {data.length}
               </div>
             </div>
             <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
@@ -170,7 +158,7 @@ const Dashboard = () => {
                 Velocidade Média Total
               </div>
               <div className="text-2xl text-red-800 dark:text-white duration-500 ease-in-out">
-                43km/h
+                {averageSpeed()} km/h
               </div>
             </div>
             <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
@@ -180,10 +168,10 @@ const Dashboard = () => {
           <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-full text-white border border-red-800 dark:text-white duration-500 ease-in-out p-5 shadow-md dark:border-white">
             <div className="w-3/4 h-auto flex flex-col gap-1 font-semibold">
               <div className="text-md font-semibold text-slate-500 dark:text-slate-300 duration-500 ease-in-out">
-                Infrações
+                Registros
               </div>
               <div className="text-2xl text-red-800 dark:text-white duration-500 ease-in-out">
-                34
+                0
               </div>
             </div>
             <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
@@ -200,7 +188,7 @@ const Dashboard = () => {
             }`}
             onClick={() => setState(0)}
           >
-            Trajetórias
+            Registros
           </div>
           <div
             className={`text-lg font-semibold p-2 rounded-xl border cursor-pointer border-red-800 dark:border-white duration-500 ease-out ${
@@ -216,7 +204,7 @@ const Dashboard = () => {
             state === 0 ? "flex" : "hidden"
           }`}
         >
-          Trajetórias
+          Registros
         </div>
         <div
           className={`w-full h-auto flex-col gap-2 ${
@@ -229,19 +217,16 @@ const Dashboard = () => {
               <div className="w-1/4 sm:w-2/6 flex items-center">
                 Velocidade Média
               </div>
-              <div className="w-1/4 sm:w-2/6 flex items-center invisible">
-                Placa
+              <div className="w-1/4 sm:w-2/6 flex items-center">
+                Tempo inicial
+              </div>
+              <div className="w-1/4 sm:w-2/6 flex items-center">
+                Tempo Final
               </div>
               <div className="w-7 invisible">info</div>
             </div>
             {sliceData.map((item, index) => {
-              return (
-                <DataRow
-                  key={index}
-                  category={item.category}
-                  speed={item.speed}
-                />
-              );
+              return <DataRow key={index} item={item} />;
             })}
           </div>
           <div className="w-full px-1 flex my-5 items-center">
