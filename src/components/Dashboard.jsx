@@ -29,11 +29,11 @@ const Dashboard = () => {
   const [currentPageRegister, setCurrentPageRegister] = useState(1);
   const lastIndexRegister = currentPageRegister * itensPerPage;
   const firstIndexRegister = lastIndexRegister - itensPerPage;
-  const sliceDataRegister = dataRegister.slice(
+  const sliceDataRegister = dataRegister?.slice(
     firstIndexRegister,
     lastIndexRegister
   );
-  const pagesRegister = Math.ceil(dataRegister.length / itensPerPage);
+  const pagesRegister = Math.ceil(dataRegister?.length / itensPerPage);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -68,8 +68,7 @@ const Dashboard = () => {
       );
 
       setName("");
-      getRegister();
-      getRegisterId(response.data);
+      getRegister().then(() => getRegisterId(response.data))
       console.log(response.data);
     } catch (error) {
       console.error(`Erro na requisição: ${error.message}`);
@@ -82,9 +81,12 @@ const Dashboard = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      setDataRegister(response.data);
-      console.log(response.data);
-      // Faça algo com a resposta, se necessário
+
+      if (Array.isArray(response.data)) {
+        setDataRegister(response.data);
+      } else {
+        setDataRegister([]);
+      }
     } catch (error) {
       console.error(`Erro na requisição: ${error.message}`);
     }
@@ -193,7 +195,7 @@ const Dashboard = () => {
           <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-32 text-white border border-red-800 p-5 shadow-md dark:border-white duration-500 ease-in-out">
             <div className="w-3/4 h-auto flex flex-col gap-1 font-semibold">
               <div className="text-md font-semibold text-slate-500 dark:text-slate-300 duration-500 ease-in-out">
-                Quantidade de Transportes
+                Quantidade de Objetos
               </div>
               <div className="text-2xl text-red-800 dark:text-white duration-500 ease-in-out">
                 {data.length}
@@ -240,7 +242,7 @@ const Dashboard = () => {
                 Registros
               </div>
               <div className="text-2xl text-red-800 dark:text-white duration-500 ease-in-out">
-                {dataRegister.length}
+                {dataRegister?.length}
               </div>
             </div>
             <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
@@ -265,7 +267,7 @@ const Dashboard = () => {
             }`}
             onClick={() => setState(1)}
           >
-            Transportes
+            Objetos
           </div>
           <div className="text-lg font-semibold flex justify-center items-center text-red-800 dark:text-white duration-500 ease-in-out">
             {currentRegister}
@@ -282,7 +284,7 @@ const Dashboard = () => {
               <div className="w-1/4 sm:flex-1 flex items-center">Título</div>
               <div className="flex items-center">Carregar Registro</div>
             </div>
-            {sliceDataRegister.map((item, index) => {
+            {sliceDataRegister?.map((item, index) => {
               return (
                 <DataRowRegister
                   key={index}

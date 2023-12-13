@@ -5,7 +5,7 @@ const TrajectoryPlot = ({ trajectoryData }) => {
   const trace = {
     x: trajectoryData.map((point) => point.x),
     y: trajectoryData.map((point) => point.y),
-    mode: "lines+markers",
+    mode: "markers",
     type: "scatter",
     name: "Trajectory",
   };
