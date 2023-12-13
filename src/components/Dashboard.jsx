@@ -10,6 +10,10 @@ const Dashboard = () => {
   const [name, setName] = useState("");
   const [file, setFile] = useState(null);
   const [data, setData] = useState([]);
+  const [dataHelmet, setDataHelmet] = useState({
+    total_com_capacete: "a definir",
+    total_sem_capacete: "a definir",
+  });
   // State
   const [state, setState] = useState(0);
   // Pagination - Transports
@@ -62,10 +66,11 @@ const Dashboard = () => {
           },
         }
       );
-      setData(response.data);
-      setCurrentRegister(name);
+
       setName("");
-      getRegister().console.log(response.data);
+      getRegister();
+      getRegisterId(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error(`Erro na requisição: ${error.message}`);
     }
@@ -93,6 +98,8 @@ const Dashboard = () => {
       });
       setData(response.data.veiculos);
       setCurrentRegister(response.data.name);
+      setDataHelmet(response.data.capacete);
+      setCurrentPage(1);
       setState(1);
       console.log(response.data);
       // Faça algo com a resposta, se necessário
@@ -183,7 +190,7 @@ const Dashboard = () => {
           Dados
         </div>
         <div className="w-full flex gap-4 flex-1 flex-wrap">
-          <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-full text-white border border-red-800 p-5 shadow-md dark:border-white duration-500 ease-in-out">
+          <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-32 text-white border border-red-800 p-5 shadow-md dark:border-white duration-500 ease-in-out">
             <div className="w-3/4 h-auto flex flex-col gap-1 font-semibold">
               <div className="text-md font-semibold text-slate-500 dark:text-slate-300 duration-500 ease-in-out">
                 Quantidade de Transportes
@@ -192,11 +199,29 @@ const Dashboard = () => {
                 {data.length}
               </div>
             </div>
+
             <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
               <i className="fa-solid fa-car-side text-white"></i>
             </div>
           </div>
-          <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-full text-white border border-red-800 dark:text-white duration-500 ease-in-out p-5 shadow-md dark:border-white">
+
+          <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-32 text-white border border-red-800 p-5 shadow-md dark:border-white duration-500 ease-in-out">
+            <div className="w-3/4 h-auto flex flex-col gap-1 font-semibold">
+              <div className="text-md font-semibold text-slate-500 dark:text-slate-300 duration-500 ease-in-out">
+                Capacete
+              </div>
+              <div className="text-xl text-red-800 dark:text-white duration-500 ease-in-out">
+                Com: {data.length ? dataHelmet.total_com_capacete : "a definir"}
+              </div>
+              <div className="text-xl text-red-800 dark:text-white duration-500 ease-in-out">
+                Sem: {data.length ? dataHelmet.total_sem_capacete : "a definir"}
+              </div>
+            </div>
+            <div className="w-14 h-14 p-5 flex justify-center items-center rounded-full bg-red-800">
+              <i className="fa-solid fa-helmet-un text-white"></i>
+            </div>
+          </div>
+          <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-32 text-white border border-red-800 dark:text-white duration-500 ease-in-out p-5 shadow-md dark:border-white">
             <div className="w-3/4 h-auto flex flex-col gap-1 font-semibold">
               <div className="text-md font-semibold text-slate-500 dark:text-slate-300 duration-500 ease-in-out">
                 Velocidade Média Total
@@ -209,7 +234,7 @@ const Dashboard = () => {
               <i className="fa-solid fa-gauge-high text-white"></i>
             </div>
           </div>
-          <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-full text-white border border-red-800 dark:text-white duration-500 ease-in-out p-5 shadow-md dark:border-white">
+          <div className="flex w-full sm:w-2/5 lg:flex-1 gap-1 rounded-lg h-32 text-white border border-red-800 dark:text-white duration-500 ease-in-out p-5 shadow-md dark:border-white">
             <div className="w-3/4 h-auto flex flex-col gap-1 font-semibold">
               <div className="text-md font-semibold text-slate-500 dark:text-slate-300 duration-500 ease-in-out">
                 Registros
